@@ -5,11 +5,32 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts"
   },
+  "trustedDependencies": [
+    "couchbase"
+  ],
   "dependencies": {
+    "@elysiajs/swagger": "^0.7.4",
+    "@opentelemetry/api": "^1.6.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.39.4",
+    "@opentelemetry/core": "^1.17.1",
+    "@opentelemetry/exporter-metrics-otlp-http": "^0.44.0",
+    "@opentelemetry/exporter-metrics-otlp-proto": "^0.44.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.44.0",
+    "@opentelemetry/exporter-trace-otlp-proto": "^0.44.0",
+    "@opentelemetry/exporter-zipkin": "^1.17.1",
+    "@opentelemetry/instrumentation-express": "^0.33.2",
+    "@opentelemetry/instrumentation-http": "^0.44.0",
+    "@opentelemetry/resources": "^1.17.1",
+    "@opentelemetry/sdk-metrics": "^1.17.1",
+    "@opentelemetry/sdk-node": "^0.44.0",
+    "@opentelemetry/semantic-conventions": "^1.17.1",
+    "couchbase": "^4.2.7",
+    "date-fns": "^2.30.0",
+    "elastic-apm-node": "^4.1.0",
     "elysia": "latest"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "^1.0.8"
   },
   "module": "src/index.js"
 }
