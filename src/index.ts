@@ -10,9 +10,9 @@ const app = new Elysia()
   .onRequest(({ request }) => {
     const url = new URL(request.url)
     // console.log(`📩 <-- ${request.method} ${url.pathname}`)
-    myApm.setTransactionName(`${request.method} ${url.pathname}`);
+    // myApm.setTransactionName(`${request.method} ${url.pathname}`);
     // myApm.startTransaction();
-    myApm.startTransaction(`${request.method} ${url.pathname}`, 'request');
+    // myApm.startTransaction(`${request.method} ${url.pathname}`, 'request');
     // myApm.setTransactionName(`${request.method} ${url.pathname}`);
     // apm.logger.info(`APM 📩 <-- ${request.method} ${url.pathname}`);
   })
@@ -21,7 +21,7 @@ const app = new Elysia()
   //     // console.log(`${typeof ctx.set.status === 'number' ? emojiStatus.get(ctx.set.status) ?? "" : ""} --> ${ctx.request.method} ${ctx.request.path} ${ctx.set.status}`)
   //   })
   .onAfterHandle(() => {
-    myApm.endTransaction();
+    // myApm.endTransaction();
     // myApm.flush();
   })
   // .use(setCommonHeaders)
