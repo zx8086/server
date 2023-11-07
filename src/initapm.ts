@@ -2,14 +2,14 @@
 import apm from 'elastic-apm-node';
 
 export const myApm = apm.start({
-    serviceName: 'FullStack-Demo',
+    serviceName: 'ElysiaJS-Backend',
     secretToken: '',
     serverUrl: 'https://apm.siobytes.com',
     environment: process.env.NODE_ENV || 'development',
     logLevel: 'trace',
     cloudProvider: 'none',
-    opentelemetryBridgeEnabled: false,
-    useElasticTraceparentHeader: false,
+    opentelemetryBridgeEnabled: true,
+    useElasticTraceparentHeader: true,
     contextManager: 'asynclocalstorage',
     contextPropagationOnly: false,
     errorOnAbortedRequests: true,
@@ -17,5 +17,6 @@ export const myApm = apm.start({
     abortedErrorThreshold: '30s',
     captureErrorLogStackTraces: 'always',
     usePathAsTransactionName: true,
-    disableInstrumentations: ['graphql', 'redis', '@opentelemetry/api', '@opentelemetry/sdk-metrics'],
+    centralConfig: true,
+    // disableInstrumentations: ['graphql', 'redis', '@opentelemetry/api', '@opentelemetry/sdk-metrics'],
 });

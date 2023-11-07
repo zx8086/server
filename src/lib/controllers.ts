@@ -42,5 +42,6 @@ export const controllers = new Elysia()
 //         summary: 'Ping Couchbase',
 //         description: 'Returns a Ping Status.',
 //     }
-// });
+// })
+;
     // .state('version', { major: 1, minor: 0, patch: 0 })
