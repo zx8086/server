@@ -11,6 +11,7 @@
   "dependencies": {
     "@apollo/server": "^4.9.5",
     "@elysiajs/apollo": "^0.7.0",
+    "@elysiajs/cors": "^0.7.1",
     "@elysiajs/swagger": "^0.7.4",
     "@opentelemetry/api": "^1.6.0",
     "@opentelemetry/auto-instrumentations-node": "^0.39.4",
