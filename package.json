@@ -9,10 +9,11 @@
     "couchbase"
   ],
   "dependencies": {
-    "@apollo/server": "^4.9.5",
-    "@elysiajs/apollo": "^0.7.0",
     "@elysiajs/cors": "^0.7.1",
+    "@elysiajs/graphql-yoga": "^0.7.1",
     "@elysiajs/swagger": "^0.7.4",
+    "@graphql-yoga/plugin-response-cache": "^3.1.0",
+    "@graphql-yoga/plugin-sofa": "^3.0.0",
     "@opentelemetry/api": "^1.6.0",
     "@opentelemetry/auto-instrumentations-node": "^0.39.4",
     "@opentelemetry/core": "^1.17.1",
@@ -31,7 +32,8 @@
     "date-fns": "^2.30.0",
     "elastic-apm-node": "^4.1.0",
     "elysia": "latest",
-    "graphql": "^16.8.1"
+    "graphql": "^16.8.1",
+    "graphql-yoga": "^5.0.0"
   },
   "devDependencies": {
     "bun-types": "^1.0.8"

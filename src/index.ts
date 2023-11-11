@@ -1,8 +1,10 @@
 import { myApm} from "./initapm";
 
-import { Elysia } from "elysia";
+import { Elysia } from 'elysia'
+import { yoga } from '@elysiajs/graphql-yoga'
 import { cors } from '@elysiajs/cors'
-import { apollo, gql } from '@elysiajs/apollo'
+import { useSofa } from '@graphql-yoga/plugin-sofa'
+import { useResponseCache } from '@graphql-yoga/plugin-response-cache'
 import typeDefs from '/Users/SOwusu/Documents/my-fullstack-app/server/src/schema/typeDefs';
 import resolvers from '/Users/SOwusu/Documents/my-fullstack-app/server/src/schema/resolvers';
 
@@ -10,14 +12,67 @@ import { setCommonHeaders } from "./lib/utils";
 import { controllers } from "./lib/controllers";
 
 const app = new Elysia()
-  .use(cors())
-    .use(
-        apollo({
-        typeDefs,
-        resolvers,
-        })
-    )
-    .listen(8080, () => {
+  .use(cors(
+    {
+      origin: true,
+      credentials: false,
+      // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      // allowedHeaders: ['Content-Type', 'Authorization'],
+      // exposedHeaders: ['Content-Type', 'Authorization'],
+      maxAge: 86400,
+      preflight: true,
+      // optionsSuccessStatus: 204,
+    
+    }
+  ))
+  .use(
+    yoga({
+      logging: 'debug',
+      typeDefs: typeDefs,
+      resolvers: resolvers,
+      // healthCheckEndpoint: '/health',
+      batching: {
+        limit: 2
+      },
+      plugins: [
+        useResponseCache({
+          // global cache
+          session: () => null
+        }),
+      ],
+      // healthCheckEndpoint: '/health',
+      // plugins: [
+      //   useResponseCache({
+      //     // global cache
+      //     session: () => null
+      //   }),
+      //   useSofa({
+      //     basePath: '/rest',
+      //     swaggerUI: {
+      //       endpoint: '/swagger'
+      //     },
+      //     title: 'Example API',
+      //     version: '1.0.0'
+      //   }),
+      //   useReadinessCheck({
+      //     endpoint: '/ready', // default
+      //     check: async () => {
+      //       try {
+      //         await checkDbAvailable()
+      //         // if true, respond with 200 OK
+      //         return false
+      //       } catch (err) {
+      //         // log the error on the server for debugging purposes
+      //         console.error(err)
+      //         // if false, respond with 503 Service Unavailable and no bdy
+      //         return false
+      //       }
+      //     }
+      //   })
+      // ],
+    })
+)
+.listen(8080, () => {
         console.log('Server is running on http://localhost:8080');
     });
     // .use(controllers)

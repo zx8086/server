@@ -1,6 +1,15 @@
-import { gql } from '@elysiajs/apollo';
 
-const typeDefs = gql`
+const typeDefs = /* GraphQL */`
+  type Todo {
+    id: ID!
+    title: String!
+  }
+  type Query {
+    todos: [Todo!]!
+  }
+  type Query {
+    slow: String
+  }
   type Option {
     id: String
     channels: [String]
@@ -39,11 +48,20 @@ const typeDefs = gql`
     theme: String
     wash: String
   }
-
   type Query {
+    todos: [Todo!]!
+    todosPage(from: Int!, limit: Int!): [Todo!]!
     options: [Option]
+    optionsByDivisionCode(divisionCode: String!): [Option]
+    optionsPage(from: Int!, limit: Int!): [Option]
   }
-
-`;
-
-export default typeDefs;
+  type Subscription {
+    countdown(from: Int!): Int!
+  }
+  type Query {
+    hello: String!
+  }
+    `;
+    
+    export default typeDefs;
+    
