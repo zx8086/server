@@ -20,7 +20,7 @@ const app = new Elysia()
       // allowedHeaders: ['Content-Type', 'Authorization'],
       // exposedHeaders: ['Content-Type', 'Authorization'],
       maxAge: 86400,
-      preflight: true,
+      // preflight: true,
       // optionsSuccessStatus: 204,
     
     }

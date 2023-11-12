@@ -1,5 +1,4 @@
 type Option = {
-  id: string;
   channels: string[] | null;
   color: string;
   colorDescription1: string;
@@ -51,12 +50,16 @@ function createDivisionData(
 
   const randomDivision = divisions[Math.floor(Math.random() * divisions.length)];
 
+  // Define possible sales channels
+  const possibleSalesChannels = ['B2B', 'SELLIN'];
+
+  // Randomly select a subset of sales channels (can be both, either, or neither)
+  const selectedSalesChannels = possibleSalesChannels.filter(() => Math.random() < 0.5);
+
   // Create the Option object with random values
   const document: Option = {
-    
-    id: `OPTION_${brand}_${randomDivision}`,
     channels: null,
-    color: colorDescription1.substring(0, 3),
+    color: colorDescription1,
     colorDescription1,
     colorDescription2: 'Dark Blue', // You can set a default value or modify this logic
     countryOfOrigin: 'North America', // You can set a default value or modify this logic
@@ -90,6 +93,7 @@ function createDivisionData(
     sustainableFiber: null,
     theme: null,
     wash: null,
+    salesChannels: selectedSalesChannels.length > 0 ? selectedSalesChannels : [],
   };
 
   return document;
@@ -102,7 +106,7 @@ function createMockOptions() {
   // Define brands
   const brands = ['TH', 'CK'];
 
-  for (let i = 1; i <= 5000; i++) {
+  for (let i = 1; i <= 200; i++) {
     const brand = brands[Math.floor(Math.random() * brands.length)];
     const styleNumber = `MW0MW177700CJ`; // Unique style number for each document.
     const colorDescription1 = `000`; // Unique color description for each document.
@@ -138,12 +142,18 @@ const mockOptions = createMockOptions();
 console.log(mockOptions);
 console.log(todos)
 
+function fetchOptionsByDivisionCode(divisionCode) {
+  // Simulate fetching options based on the provided divisionCode
+  return mockOptionsDataSource.filter((option) => option.divisionCode === divisionCode);
+}
+
+
 const resolvers = {
   Query: {
-    slow: async () => {
-      await new Promise(resolve => setTimeout(resolve, 5000))
-      return 'I am slow.'
-    },
+    // slow: async () => {
+    //   await new Promise(resolve => setTimeout(resolve, 5000))
+    //   return 'I am slow.'
+    // },
     options: (): Option[] => {
       // Return the generated mock options
       return mockOptions;
@@ -151,6 +161,37 @@ const resolvers = {
     optionsByDivisionCode: (_: any, { divisionCode }: { divisionCode: string }) => {
       // Filter mock options based on divisionCode
       return mockOptions.filter(option => option.divisionCode === divisionCode);
+    },
+    fetchOptionsByDivisionCode: (_: any, { divisionCode }: { divisionCode: string }) => {
+      // Filter mock options based on divisionCode
+      return mockOptions.filter((option) => option.divisionCode === divisionCode);
+    },
+
+    optionCounts: async (_: any, { divisionCode, salesChannels }: { divisionCode: string, salesChannels: string[] }) => {
+      // Filter options based on divisionCode and salesChannels
+      const options = mockOptions.filter((option) => {
+        return option.divisionCode === divisionCode && salesChannels.some((channel) => option.salesChannels.includes(channel));
+      });
+      
+      // Calculate counts for each attribute
+      const isAvailableCount = options.filter((option) => option.isAvailable).length;
+      const isCancelledCount = options.filter((option) => option.isCancelled).length;
+      const isNewCount = options.filter((option) => option.isNew).length;
+      const isSoldOutCount = options.filter((option) => option.isSoldOut).length;
+      const isUpdatedCount = options.filter((option) => option.isUpdated).length;
+
+      // Calculate the totalCount
+      const totalCount = options.length;
+
+      // Return the counts as an object
+      return {
+        isAvailableCount,
+        isCancelledCount,
+        isNewCount,
+        isSoldOutCount,
+        isUpdatedCount,
+        totalCount,  // Include the totalCount field
+      };
     },
     todos: () => todos,
   },
